@@ -52,28 +52,29 @@ def inject_original_text(directory_with_files_to_extend, directory_with_files_to
             error_message = {'file': filename, 'message': ex}
             errors.append(error_message)
 
-        print("Processed: {0}/{1}".format(i + 1, len(files_to_process)))
-
+        print("Processing: {0}/{1}".format(i + 1, len(files_to_process)), end='\r')
     if errors:
         errors_to_write = []
 
         for i, error in enumerate(errors):
-            error_to_write = "{0}. {1}: {2}".format(i, error['file'], error['message'])
+            error_to_write = "{0}. {1}: {2}".format(i + 1, error['file'], error['message'])
             errors_to_write.append(error_to_write)
 
         write_directory = os.path.join(directory_with_files_to_extend, "extended")
 
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        error_filename = "Errors ({0})".format(time)
+        error_filename = "Errors ({0}).txt".format(time)
 
         with open(os.path.join(write_directory, error_filename), 'w') as file:
             for error in errors_to_write:
                 file.write(error + '\n')
 
-    print("Done. Total errors: {0}".format(len(errors)))
+    print("")
+    print("Processing: Done")
+    print("Total errors: {0}".format(len(errors)))
 
     if errors:
-        print("Errors list in: {}".format(os.path.join(write_directory, error_filename)))
+        print("Errors list in: {0}".format(os.path.join(write_directory, error_filename)))
 
 
 
@@ -93,7 +94,7 @@ def get_files_to_process(files_to_extend, files_to_inject):
         if extracted_original_name in files_to_inject:
             files_to_process.append(filename)
 
-    return files_to_process
+    return sorted(files_to_process)
 
 
 def load_text(directory, filename):
