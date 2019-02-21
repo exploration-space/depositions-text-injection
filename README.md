@@ -17,7 +17,7 @@ python3 inject_text.py /path/to/TEI/files/directory/id_corrected/ /path/to/origi
 ```
 Script writes all created files in `/path/to/TEI/files/directory/id_corrected/extended/` directory.
 
-If script encounter some errors, those are written to `Errors (current_date).txt` in `/path/to/TEI/files/directory/id_corrected/extended/` directory.
+If script encounter some incorrect IDs, those are written to `Errors (current_date).txt` in `/path/to/TEI/files/directory/id_corrected/extended/` directory.
 
 ## Testing
 All tests should be in `depositions-text-injection/tests` directory.
