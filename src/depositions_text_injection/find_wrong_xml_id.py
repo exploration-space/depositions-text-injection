@@ -33,10 +33,10 @@ def find_wrong_ids(directory_with_files_to_check):
 
     # write wrong ids to file
 
-    time = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
-    filename_to_write = "Wrong_ids_({0}).txt".format(time)
+    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    filename_to_write = "Wrong ids ({0}).txt".format(time)
 
-    write_directory = os.path.join(directory_with_files_to_check, "search_results")
+    write_directory = os.path.join(directory_with_files_to_check, "search results")
 
     try:
         os.makedirs(write_directory)
@@ -48,7 +48,6 @@ def find_wrong_ids(directory_with_files_to_check):
 
     files_number = len(files_to_check)
     wrong_ids_number = len(wrong_ids)
-
 
     # find tags with wrong ids
 
