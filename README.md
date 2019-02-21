@@ -1,17 +1,23 @@
 # depositions-text-injection
 ## Purpose
-This script was designed to inject text from original deposition files to appropriate TEI files. 
+This scripts was designed to inject text from original deposition files to appropriate TEI files. 
 
 It work only with files with UTF-8 encoding.
 
 ## Usage
-To run script, type in console:
+First, you need to correct wrong xml ids in TEI files, by run in console:
 ```
-python depositions_text_injection.py /path/to/TEI/files/directory/ /path/to/original/deposition/files/directory/
+python repair_wrong_xml_id.py /path/to/TEI/files/directory/ 
 ```
-Script writes all created files in `/path/to/TEI/files/directory/extended/` directory.
+Script writes all created files in `/path/to/TEI/files/directory/id_corrected/` directory.
 
-If script encounter some errors, write them to `Errors (current_date).txt` in `/path/to/TEI/files/directory/extended/` directory.
+Second, you need to inject original depositions text to appropriate TEI files with corrected ids:
+```
+python inject_text.py /path/to/TEI/files/directory/id_corrected/ /path/to/original/deposition/files/directory/
+```
+Script writes all created files in `/path/to/TEI/files/directory/id_corrected/extended/` directory.
+
+If script encounter some errors, write them to `Errors (current_date).txt` in `/path/to/TEI/files/directory/id_corrected/extended/` directory.
 
 ## Testing
 All tests should be in `depositions-text-injection/tests` directory.
