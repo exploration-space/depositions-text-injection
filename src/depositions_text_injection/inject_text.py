@@ -53,7 +53,7 @@ def inject_original_text(directory_with_files_to_extend, directory_with_files_to
             error_message = {'file': filename, 'message': ex}
             errors.append(error_message)
 
-        print("Processed: {0}/{1}".format(i + 1, len(files_to_process)))
+        print("Processing: {0}/{1}".format(i + 1, len(files_to_process)), end='\r')
 
     if errors:
         errors_to_write = []
@@ -158,9 +158,10 @@ def join_encoding_line(encoding_line, xml_text):
 
 
 def save_xml(text_to_write, filename, directory_with_files_to_extend):
-    filename_to_write = filename + "_injected" + ".xml"
+    # filename_to_write = filename + "_injected" + ".xml"
+    filename_to_write = filename
 
-    write_directory = os.path.join(directory_with_files_to_extend, "extended")
+    write_directory = os.path.join(directory_with_files_to_extend, "text_injected")
 
     try:
         os.makedirs(write_directory)
