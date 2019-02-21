@@ -16,40 +16,27 @@ def find_wrong_ids(directory_with_files_to_check):
         if os.path.isfile(path):
             files_to_check.append(item)
 
-
     # finding wrong ids
 
-    wrong_ids = []
+    wrong_ids = set()
+    regex = r'xml:id="([0-9].*?)"'
 
     for filename in files_to_check:
         with open(os.path.join(directory_with_files_to_check, filename), 'r') as file:
             text_to_check = file.read()
+        wrong_ids.update(re.findall(regex, text_to_check))
 
-        regex = r'(<.*?)(xml:id="[0-9].*?")'
-        matched = re.findall(regex, text_to_check)
-
-        for match in matched:
-            wrong_id = match[-1]
-            wrong_id = wrong_id.replace('xml:id="', '')
-            wrong_id = wrong_id.replace('"', '')
-
-            wrong_ids.append(wrong_id)
-
-    wrong_ids = set(wrong_ids)
-
+    sorted_wrong_ids = sorted(wrong_ids)
     print("List of wrong ids in all files:")
-    for id in sorted(wrong_ids):
+    for id in sorted_wrong_ids:
         print(id)
-
 
     # write wrong ids to file
 
-    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    filename_to_write = "Wrong ids ({0}).txt".format(time)
+    time = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    filename_to_write = "Wrong_ids_({0}).txt".format(time)
 
-    write_directory = os.path.join(directory_with_files_to_check, "search results")
-
-    text_to_write = '\n'.join(sorted(wrong_ids))
+    write_directory = os.path.join(directory_with_files_to_check, "search_results")
 
     try:
         os.makedirs(write_directory)
@@ -57,8 +44,7 @@ def find_wrong_ids(directory_with_files_to_check):
         pass
 
     with open(os.path.join(write_directory, filename_to_write), 'w') as file:
-        file.write(text_to_write)
-
+        file.writelines(sorted_wrong_ids)
 
     files_number = len(files_to_check)
     wrong_ids_number = len(wrong_ids)
