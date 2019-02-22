@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="1641-depositions.rng" type="xml"?><!--Copyright of the Board of Trinity College Dublin--><TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">	
+	<!--<TEI>-->
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>
+
+                    </title>
+			</titleStmt>
+			<editionStmt>
+				<edition>Transcribed Version of Deposition
+				</edition>
+			<respStmt><resp xmlns="">Edited</resp><include xmlns="" href="responsiblePeople.xml" xpointer="RP5" /></respStmt></editionStmt>
+			<publicationStmt>
+				<publisher>Trinity College Dublin</publisher>
+				<pubPlace>Dublin, Ireland</pubPlace>
+			</publicationStmt>
+		<sourceDesc><include href="manuscriptDescription_tei.xml" xpointer="ms817" /></sourceDesc></fileDesc>
+		<encodingDesc>
+			<charDecl>
+			</charDecl>
+            <xi:include href="projectDesc.xml" xpointer="id1641-projectDesc" />
+			<xi:include href="editorialDecl.xml" xpointer="id1641-editorialDecl" />
+		</encodingDesc>
+		<profileDesc>
+			<creation>
+				<date when="1642_1_8" />
+				<placeName>
+					<country>Ireland</country>
+				</placeName>
+			</creation>
+			<!-- Points to keywords in keywords.xml file -->
+			<textClass>
+			<keywords scheme="1641"><list type="deposition_type"><xi:include href="keywords.xml" xpointer="dt4" /></list></keywords><keywords scheme="1641"><list type="nature_of_deposition"><xi:include href="keywords.xml" xpointer="nod8" /><xi:include href="keywords.xml" xpointer="nod2" /><xi:include href="keywords.xml" xpointer="nod101" /><xi:include href="keywords.xml" xpointer="nod5" /><xi:include href="keywords.xml" xpointer="nod14" /><xi:include href="keywords.xml" xpointer="nod17" /></list></keywords></textClass>
+			<langUsage>
+				<language ident="en" usage="100" />
+			</langUsage>
+		<particDesc><listPerson><person xml:id="817300r209-1" sex="2"><persName><roleName type="Deponent" /><forename>Elizabeth</forename><surname>Trafford</surname></persName><residence><placeName type="Placename">Ballimecormock</placeName><region type="County">Longford</region><country key="IRL">Ireland</country></residence><occupation>Widow</occupation></person><person xml:id="817300r209-2" sex="1"><persName><roleName type="Mentioned" /><forename>Thomas</forename><surname>Trafford</surname></persName><occupation>Vicar</occupation></person><person xml:id="817300r209-3" sex="3"><persName><roleName type="Mentioned" /><forename>Richarc Mc Connell</forename><surname>ffarrell</surname></persName></person><person xml:id="817300r209-4" sex="3"><persName><roleName type="Mentioned" /><forename>John</forename><surname>Seaton</surname></persName></person><person xml:id="817300r209-5" sex="1"><persName><surname type="Patronym">mcCrosse</surname><roleName type="Rebel" /><forename>Conn</forename><surname>ffarrall</surname></persName></person><person xml:id="817300r209-6" sex="3"><persName><roleName type="Rebel" /><forename>Roger</forename><surname>Nangle</surname></persName></person><person xml:id="817300r209-7" sex="3"><persName><roleName type="Rebel" /><forename>Bartholomew</forename><surname>Nangle</surname></persName></person><person xml:id="817300r209-8" sex="3"><persName><roleName type="Rebel" /><forename>Rory</forename><surname>ffarrell</surname></persName></person><person xml:id="817300r209-9" sex="3"><persName><roleName type="Rebel" /><forename>Lisagh</forename><surname>ffarrell</surname></persName></person><person xml:id="817300r209-10" sex="3"><persName><roleName type="Rebel" /><forename>ffawghnagh mc Lishagh</forename><surname>ffarrell</surname></persName></person><person xml:id="817300r209-11" sex="3"><persName><roleName type="Rebel" /><forename>Lishagh</forename><surname>duff</surname></persName></person><person xml:id="817300r209-12" sex="3"><persName><roleName type="Rebel" /><forename>John</forename><surname>Reynolds</surname></persName></person><person xml:id="817300r209-13" sex="1"><persName><roleName type="Victim" /><forename>ffrancis</forename><surname>Martin</surname></persName><occupation>Merchant</occupation></person><person xml:id="817300r209-14" sex="3"><persName><roleName type="Victim" /><forename>Mathew</forename><surname>Baker</surname></persName></person><person xml:id="817300r209-15" sex="3"><persName><roleName type="Victim" /><forename>John</forename><surname>Smith</surname></persName></person><person xml:id="817300r209-16" sex="3"><persName><roleName type="Victim" /><forename>Tho:</forename><surname>Allen</surname></persName></person><person xml:id="817300r209-17" sex="3"><persName><roleName type="Victim" /><forename>John</forename><surname>*</surname></persName></person></listPerson></particDesc><particDesc><listPlace /></particDesc></profileDesc>
+	<revisionDesc><change when="2009-12-17T10:33:44" who="responsiblePeople.xml#RP5" /></revisionDesc></teiHeader>
+	<!-- @corresp on <text> indicates that this transcription corresponds with the msItem identified in the msDesc file with this id. -->
+	<text corresp="outputFiles/manuscriptDescription_tei.xml#id817300r209">
+		<body>
+		<div type="deposition">
+		<closer><signed><roleName type="Commissioner" /><name>Henry Jones</name></signed><signed><roleName type="Commissioner" /><name>John Watson</name></signed></closer></div>
+		</body>
+		<back />
+	</text>
+</TEI>
