@@ -48,7 +48,8 @@ def inject_original_text(dir_files_to_extend, dir_files_to_inject):
         new_element = etree.Element("div", type="original")
 
         try:
-            xml_tree = etree.fromstring(text_to_parse)
+            parser = etree.XMLParser(strip_cdata=False)
+            xml_tree = etree.fromstring(text_to_parse, parser=parser)
             insert_element(xml_tree, new_element)
 
             text_to_write = etree.tostring(xml_tree, encoding="unicode")
@@ -101,6 +102,7 @@ def replace_carriage_return(text_to_inject):
     new_text = text_to_inject.replace('&#xD;', '&#13;')
 
     return new_text
+
 
 def inject(text_to_write, text_to_inject):
     text_to_replace = '<div type="original"/>'
