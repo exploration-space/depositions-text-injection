@@ -8,17 +8,17 @@ from datetime import datetime
 
 
 def check_arguments(arguments):
-    if len(arguments) != 3:
-        raise Exception("ERROR: Invalid number of arguments. Function takes 2 arguments.")
+    if len(arguments) != 4:
+        raise Exception("ERROR: Invalid number of arguments. Function takes 3 arguments.")
 
     arguments = arguments[1:]
 
-    for argument in arguments:
+    for argument in arguments[:2]:
         if not os.path.isdir(argument):
             raise ValueError("ERROR: '{0}' isn't correct directory.".format(argument))
 
 
-def inject_original_text(dir_files_to_extend, dir_files_to_inject):
+def inject_text(dir_files_to_extend, dir_files_to_inject, div_type="original"):
     files_to_extend = os.listdir(dir_files_to_extend)
     files_to_inject = os.listdir(dir_files_to_inject)
 
@@ -45,7 +45,7 @@ def inject_original_text(dir_files_to_extend, dir_files_to_inject):
         text_to_inject = load_text(dir_files_to_inject, extracted_original_name)
         text_to_inject = replace_carriage_return(text_to_inject)
 
-        new_element = etree.Element("div", type="original")
+        new_element = etree.Element("div", type=div_type)
 
         try:
             parser = etree.XMLParser(strip_cdata=False)
@@ -53,7 +53,7 @@ def inject_original_text(dir_files_to_extend, dir_files_to_inject):
             insert_element(xml_tree, new_element)
 
             text_to_write = etree.tostring(xml_tree, encoding="unicode")
-            text_to_write = inject(text_to_write, text_to_inject)
+            text_to_write = inject(text_to_write, text_to_inject, div_type)
             text_to_write = join_encoding_line(encoding_line, text_to_write)
 
             save_file(text_to_write, filename, dir_result)
@@ -104,9 +104,9 @@ def replace_carriage_return(text_to_inject):
     return new_text
 
 
-def inject(text_to_write, text_to_inject):
-    text_to_replace = '<div type="original"/>'
-    text_to_inject = '<div type="original">' + text_to_inject + '</div>'
+def inject(text_to_write, text_to_inject, div_type="original"):
+    text_to_replace = '<div type="{}"/>'.format(div_type)
+    text_to_inject = '<div type="{}">'.format(div_type) + text_to_inject + '</div>'
     text_with_injection = text_to_write.replace(text_to_replace, text_to_inject)
 
     return text_with_injection
@@ -190,8 +190,9 @@ def main(argv):
 
     dir_files_to_extend = argv[1]
     dir_files_to_inject = argv[2]
+    div_type = argv[3]
 
-    inject_original_text(dir_files_to_extend, dir_files_to_inject)
+    inject_text(dir_files_to_extend, dir_files_to_inject, div_type)
 
 
 if __name__ == '__main__':

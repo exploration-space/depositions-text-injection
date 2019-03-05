@@ -82,7 +82,7 @@ def test_inject_original_text__xml_parsing_error__write_error_file(tmpdir):
     print(files_in_original)
 
 
-    inject_text.inject_original_text(str(tei_dir), str(original_dir))
+    inject_text.inject_text(str(tei_dir), str(original_dir))
 
     files_in_tei = os.listdir(str(tei_dir))
     print("\n")
