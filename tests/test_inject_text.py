@@ -7,7 +7,7 @@ import shutil
 
 test_data_check_arguments__invalid_number_of_arguments__exception = [
     ("", "path_1"),
-    ("", "path_1", "path_2", 1)
+    ("", "path_1", "path_2")
 ]
 
 
@@ -18,7 +18,7 @@ def test_check_arguments__invalid_number_of_arguments__exception(arguments):
 
     message = error.value.args[0]
 
-    assert message == "ERROR: Invalid number of arguments. Function takes 2 arguments."
+    assert message == "ERROR: Invalid number of arguments. Function takes 3 arguments."
 
 
 test_data_check_arguments__invalid_path_in_argument__exception = [
@@ -38,6 +38,7 @@ def test_check_arguments__invalid_path_in_argument__exception(arguments, wrong_p
         "",
         os.path.join(str(tmpdir), arguments[1][1:]),
         os.path.join(str(tmpdir), arguments[2][1:]),
+        "original"
     )
 
     wrong_path = os.path.join(str(tmpdir), wrong_path[1:])
@@ -82,7 +83,7 @@ def test_inject_original_text__xml_parsing_error__write_error_file(tmpdir):
     print(files_in_original)
 
 
-    inject_text.inject_text(str(tei_dir), str(original_dir))
+    inject_text.inject_text_div(str(tei_dir), str(original_dir))
 
     files_in_tei = os.listdir(str(tei_dir))
     print("\n")

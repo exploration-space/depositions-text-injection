@@ -18,7 +18,7 @@ def check_arguments(arguments):
             raise ValueError("ERROR: '{0}' isn't correct directory.".format(argument))
 
 
-def inject_text(dir_files_to_extend, dir_files_to_inject, div_type="original"):
+def inject_text_div(dir_files_to_extend, dir_files_to_inject, div_type="original"):
     files_to_extend = os.listdir(dir_files_to_extend)
     files_to_inject = os.listdir(dir_files_to_inject)
 
@@ -192,7 +192,7 @@ def main(argv):
     dir_files_to_inject = argv[2]
     div_type = argv[3]
 
-    inject_text(dir_files_to_extend, dir_files_to_inject, div_type)
+    inject_text_div(dir_files_to_extend, dir_files_to_inject, div_type)
 
 
 if __name__ == '__main__':
