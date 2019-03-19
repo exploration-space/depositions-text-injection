@@ -6,10 +6,10 @@ from typing import List
 
 def repair_ids(text: str) -> str:
     # replace id's in tags with explicit xml:id value, if it starts with digit
-    text = re.sub('<([a-zA-Z_][A-Za-z-_.]*?) ([^<^>]?xml:id=")([0-9].*?")', "<\g<1> \g<2>\g<1>\g<3>", text)
+    text = re.sub(r'<([a-zA-Z_][A-Za-z-_.]*?) ([^<^>]?xml:id=")([0-9].*?")', "<\g<1> \g<2>\g<1>\g<3>", text)
 
     # replace id's in text @corresp tags, if it starts with digit
-    text = re.sub('(<text.*?)#id([0-9].*?")', "\g<1>#p\g<2>", text)
+    text = re.sub(r'(<text.*?)#id([0-9].*?")', "\g<1>#p\g<2>", text)
     return text
 
 
@@ -45,7 +45,7 @@ def load_text(directory: str, filename: str) -> str:
 
 def save_xml(text_to_write: str, filename: str, target_dir: str) -> None:
     # filename_to_write = filename + "_id_corected" + ".xml"
-    write_directory = os.path.join(target_dir, "id_corrected")
+    write_directory = os.path.abspath(os.path.join(target_dir, os.path.pardir, "id_corrected"))
 
     try:
         os.makedirs(write_directory)

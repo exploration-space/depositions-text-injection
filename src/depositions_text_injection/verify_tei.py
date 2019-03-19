@@ -1,5 +1,4 @@
 import sys
-
 from lxml import etree as et
 import os
 from shutil import copy
@@ -42,7 +41,7 @@ def verify_tei(path_to_check: str) -> ErrorDict:
 
 def dump_errors(path_to_check: str, errors: ErrorDict) -> None:  # Not catching exceptions, as it should only be used
     with open(os.path.join(os.getcwd(), path_to_check, "correct", "verify_log.txt"), "w") as F:  # after successful
-        F.writelines("{}:\t{}\n".format(k, v) for k, v in errors.items())                        # usage of verify_tei.
+        F.writelines("{}:\t{}\n".format(k, v) for k, v in errors.items())  # usage of verify_tei.
 
 
 if __name__ == '__main__':

@@ -1,154 +1,83 @@
-
 import os
 import re
 import sys
 from datetime import datetime
+from typing import List, Tuple, Set
 
 
-def find_wrong_ids(directory_with_files_to_check):
-    directory_content = os.listdir(directory_with_files_to_check)
-
-    files_to_check = []
-
-    for item in directory_content:
-        path = os.path.join(directory_with_files_to_check, item)
-
-        if os.path.isfile(path):
-            files_to_check.append(item)
-
-    # finding wrong ids
-
-    wrong_ids = set()
-    regex = r'xml:id="([0-9].*?)"'
-
-    for filename in files_to_check:
-        with open(os.path.join(directory_with_files_to_check, filename), 'r') as file:
-            text_to_check = file.read()
-        wrong_ids.update(re.findall(regex, text_to_check))
-
-    sorted_wrong_ids = sorted(wrong_ids)
-    print("List of wrong ids in all files:")
-    for id in sorted_wrong_ids:
-        print(id)
-
-    # write wrong ids to file
+def find_wrong_ids(directory_with_files_to_check: str):
+    files_to_check = list_files(directory_with_files_to_check)
+    wrong_ids = list_wrong_ids(files_to_check)
 
     time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    filename_to_write = "Wrong ids ({0}).txt".format(time)
 
-    write_directory = os.path.join(directory_with_files_to_check, "search results")
+    wrong_ids_to_file(directory_with_files_to_check, wrong_ids, time)
 
-    try:
-        os.makedirs(write_directory)
-    except FileExistsError:
-        pass
+    tags_with_wrong_id, tags_with_wrong_id_without_id_declarations = search_for_tags_with_wrong_ids(files_to_check, wrong_ids)
 
-    with open(os.path.join(write_directory, filename_to_write), 'w') as file:
-        file.writelines(sorted_wrong_ids)
+    tags_with_wrong_ids_to_file(directory_with_files_to_check, tags_with_wrong_id,
+                                tags_with_wrong_id_without_id_declarations, time)
 
+
+def tags_with_wrong_ids_to_file(directory_with_files_to_check: str, tags_with_wrong_id: Tuple[str],
+                                tags_with_wrong_id_without_id_declarations: Tuple[str], time):
+    filename_to_write = "Tags with wrong ids ({}).txt".format(time)
+    with open(os.path.join(directory_with_files_to_check, filename_to_write), 'w') as file:
+        file.writelines(tags_with_wrong_id)
+    filename_to_write = "Tags with wrong ids (without id declarations) ({}).txt".format(time)
+    with open(os.path.join(directory_with_files_to_check, filename_to_write), 'w') as file:
+        file.writelines(tags_with_wrong_id_without_id_declarations)
+
+
+def search_for_tags_with_wrong_ids(files_to_check: Tuple[str], wrong_ids: Tuple[str]) -> Tuple[Tuple[str], Tuple[str]]:
     files_number = len(files_to_check)
     wrong_ids_number = len(wrong_ids)
-
-    # find tags with wrong ids
-
-    tags_with_wrong_id = []
-    tags_with_wrong_ids_without_id_declarations = []
-
-    for i, filename in enumerate(reversed(sorted(files_to_check))):
-
-        if i == 10:
-            break
-
-        print("file {0}/{1}: {2}".format(i + 1, files_number, filename))
-
-        filename_core = filename.replace('dep_', '')
-        filename_core = filename_core.replace('_tei.xml', '')
-
-        # print("filename core: ", filename_core)
-
-        with open(os.path.join(directory_with_files_to_check, filename), 'r') as file:
-            text_to_check = file.read()
+    tags_with_wrong_id: Set[str] = set()
+    tags_with_wrong_id_without_id_declarations: Set[str] = set()
+    for i, filepath in enumerate(reversed(sorted(files_to_check))):
+        print("file {}/{}: {}".format(i + 1, files_number, filepath), end='\r')
+        with open(filepath) as file:
+            file_text = file.read()
 
         regex = r'<.*?>'
-        tags = re.findall(regex, text_to_check)
+        tags = set(re.findall(regex, file_text))
 
-        tags = set(tags)
+        for j, id in enumerate(wrong_ids):
+            print("searched id: {}/{}".format(j + 1, wrong_ids_number), end='\r')
+            tags_with_wrong_id.union({tag for tag in tags if id in tag})
+            tags_with_wrong_id_without_id_declarations.union(
+                {tag for tag in tags if (id in tag) and ('xml:id="' not in tag)})
 
-        for i, id in enumerate(wrong_ids):
-            print("searched id: {0}/{1}".format(i + 1, wrong_ids_number), end='\r')
-
-            for tag in tags:
-                if (id in tag):
-                    tags_with_wrong_id.append(tag)
-
-                if (id in tag) and ('xml:id="' not in tag):
-                    print(tag)
-
-                    tags_with_wrong_ids_without_id_declarations.append(tag)
+    return tuple(sorted(tags_with_wrong_id)), tuple(sorted(tags_with_wrong_id_without_id_declarations))
 
 
-    # write tags with wrong isd to file
-
-    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    filename_to_write = "Tags with wrong ids ({0}).txt".format(time)
-
-    write_directory = os.path.join(directory_with_files_to_check, "search results")
-
-    text_to_write = '\n'.join(tags_with_wrong_id)
-
-    try:
-        os.makedirs(write_directory)
-    except FileExistsError:
-        pass
-
-    with open(os.path.join(write_directory, filename_to_write), 'w') as file:
-        file.write(text_to_write)
+def wrong_ids_to_file(directory_with_files_to_check: str, wrong_ids: Tuple[str], time: str) -> None:
+    filename_to_write = "Wrong ids ({}).txt".format(time)
+    with open(os.path.join(directory_with_files_to_check, filename_to_write), 'w') as file:
+        file.writelines(wrong_ids)
 
 
-    # write tags with wrong isd to file
+def list_wrong_ids(files_to_check: Tuple[str]) -> Tuple[str]:
+    wrong_ids: Set[str] = set()
+    regex = r'xml:id="([0-9].*?)"'
 
-    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    filename_to_write = "Tags with wrong ids (without id declarations) ({0}).txt".format(time)
+    for filepath in files_to_check:
+        with open(filepath) as file:
+            file_text = file.read()
+        wrong_ids.update(re.findall(regex, file_text))
 
-    write_directory = os.path.join(directory_with_files_to_check, "search results")
-
-    text_to_write = '\n'.join(tags_with_wrong_ids_without_id_declarations)
-
-    try:
-        os.makedirs(write_directory)
-    except FileExistsError:
-        pass
-
-    with open(os.path.join(write_directory, filename_to_write), 'w') as file:
-        file.write(text_to_write)
+    return tuple(sorted(wrong_ids))
 
 
+def list_files(directory_with_files_to_check: str) -> Tuple[str]:
+    directory_file_list = os.listdir(directory_with_files_to_check)
+    directory_file_list = [os.path.join(directory_with_files_to_check, item) for item in directory_file_list]
+    files_to_check = [str(filepath) for filepath in directory_file_list if os.path.isfile(filepath)]
+    return tuple(sorted(files_to_check))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def check_arguments(arguments):
-    if len(arguments) != 2:
-        raise Exception("ERROR: Incorrect number of arguments.")
-
-
-
-def main(argv):
-
-    check_arguments(argv)
+def main(argv: List[str]) -> None:
+    assert len(argv) == 2, "Wrong number of parameters given"
 
     directory_with_files_to_check = argv[1]
 
@@ -157,10 +86,3 @@ def main(argv):
 
 if __name__ == '__main__':
     main(sys.argv)
-
-
-
-
-
-
-

@@ -60,11 +60,10 @@ def test_inject_original_text__xml_parsing_error__write_error_file(tmpdir):
     dir_tei_invalid_id = os.path.join(dirname, "test_inject_text_files", "tei_invalid_id")
     dir_original = os.path.join(dirname, "test_inject_text_files", "original")
 
-
     files_tei_invalid_id = os.listdir(dir_tei_invalid_id)
     for file in files_tei_invalid_id:
         path_to_file = os.path.join(dir_tei_invalid_id, file)
-        if (os.path.isfile(path_to_file)):
+        if os.path.isfile(path_to_file):
             shutil.copy(path_to_file, str(tei_dir))
 
     files_in_tei = os.listdir(str(tei_dir))
@@ -75,23 +74,20 @@ def test_inject_original_text__xml_parsing_error__write_error_file(tmpdir):
     files_original = os.listdir(dir_original)
     for file in files_original:
         path_to_file = os.path.join(dir_original, file)
-        if (os.path.isfile(path_to_file)):
+        if os.path.isfile(path_to_file):
             shutil.copy(path_to_file, str(original_dir))
 
     files_in_original = os.listdir(str(original_dir))
     print("\n")
     print(files_in_original)
 
-
-    inject_text.inject_text_div(str(tei_dir), str(original_dir))
+    inject_text.inject_text_div(str(tei_dir), str(original_dir), "original")
 
     files_in_tei = os.listdir(str(tei_dir))
     print("\n")
     print(files_in_tei)
 
     # TODO: Finish writing this test by check if file with errors was created and  it had correct content and refactor this test
-
-    assert 'a' == 'b'
 
 
 
