@@ -7,17 +7,25 @@ It work only with files encoded in UTF-8.
 ## Usage
 First, you need to correct wrong xml ids in TEI files, by running in console:
 ```
-python repair_wrong_xml_id.py /path/to/TEI/files/directory/ 
+python3 repair_wrong_xml_id.py /path/to/TEI/files/directory/ 
 ```
 Script writes all created files in `/path/to/TEI/files/directory/id_corrected/` directory.
 
-Secondly, you need to inject original depositions text to appropriate TEI files with corrected ids:
+After that, you need to inject original depositions text to appropriate TEI files with corrected ids:
 ```
-python3 inject_text.py /path/to/TEI/files/directory/id_corrected/ /path/to/original/deposition/files/directory/
+python3 inject_text.py /path/to/TEI/files/directory/id_corrected/ /path/to/original/deposition/files/directory/ div_name
 ```
-Script writes all created files in `/path/to/TEI/files/directory/id_corrected/extended/` directory.
+e.g.
+```
+python3 inject_text.py id_corrected original/ original
+```
 
-If script encounter some incorrect IDs, those are written to `Errors (current_date).txt` in `/path/to/TEI/files/directory/id_corrected/extended/` directory.
+Script writes all created files in `/path/to/TEI/files/directory/id_corrected_injected/` directory.
+
+If script encounters some incorrect IDs, those are written to `Errors (current_date).txt` in `/path/to/TEI/files/directory/id_corrected_injected/` directory.
+
+If deposition files are incorrect, you can try repairing them by going into directory that contains those, creating "repaired" dir within, and running repair.sh.
+It will try to repair some known issues and will write modified files to "repaired" directory. Remember to check those after, as it's not guaranteed, that this script will repair all or even any of those. 
 
 ## Testing
 All tests should be in `depositions-text-injection/tests` directory.
