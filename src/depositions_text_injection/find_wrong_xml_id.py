@@ -13,7 +13,8 @@ def find_wrong_ids(directory_with_files_to_check: str):
 
     wrong_ids_to_file(directory_with_files_to_check, wrong_ids, time)
 
-    tags_with_wrong_id, tags_with_wrong_id_without_id_declarations = search_for_tags_with_wrong_ids(files_to_check, wrong_ids)
+    tags_with_wrong_id, tags_with_wrong_id_without_id_declarations = search_for_tags_with_wrong_ids(files_to_check,
+                                                                                                    wrong_ids)
 
     tags_with_wrong_ids_to_file(directory_with_files_to_check, tags_with_wrong_id,
                                 tags_with_wrong_id_without_id_declarations, time)
